@@ -5,52 +5,71 @@ window.addEventListener("load", function() {
     // Log when the main function starts.
     console.log("Window loaded. Initializing FAQ script...");
 
-    var acc = document.getElementsByClassName("am-faq-accordion-question");
+    var allQuestions = document.getElementsByClassName("am-faq-accordion-question");
     
-    // Log how many question elements were found. This is a critical step.
-    console.log("Found " + acc.length + " FAQ question elements.");
+    // Log how many question elements were found.
+    console.log("Found " + allQuestions.length + " FAQ question elements.");
 
-    if (acc.length === 0) {
-        console.warn("Warning: No elements with class 'am-faq-accordion-question' were found. The script will not attach any click events.");
+    if (allQuestions.length === 0) {
+        console.warn("Warning: No elements with class 'am-faq-accordion-question' were found.");
+        return; // Exit if there's nothing to do.
     }
 
-    for (var i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-            // Log which question was clicked.
-            console.log("Clicked question:", this.textContent.trim());
+    for (var i = 0; i < allQuestions.length; i++) {
+        allQuestions[i].addEventListener("click", function() {
+            // 'this' is the clicked question element.
+            var clickedQuestion = this;
+            console.log("Clicked question:", clickedQuestion.textContent.trim());
             
-            this.classList.toggle("active");
-
-            let currentElement = this; 
-            let panel = null;
-
-            for (let j = 0; j < 5 && currentElement; j++) {
-                let sibling = currentElement.nextElementSibling;
-                while (sibling) {
-                    if (sibling.classList.contains("am-faq-accordion-answer")) {
-                        panel = sibling;
-                        break; 
+            // --- NEW LOGIC: Close all other panels first ---
+            for (var j = 0; j < allQuestions.length; j++) {
+                // If this is not the question that was just clicked...
+                if (allQuestions[j] !== clickedQuestion) {
+                    allQuestions[j].classList.remove("active");
+                    let panelToClose = findNextPanel(allQuestions[j]);
+                    if (panelToClose) {
+                        panelToClose.style.maxHeight = "0px";
                     }
-                    sibling = sibling.nextElementSibling;
                 }
-                if (panel) break; 
-                currentElement = currentElement.parentElement;
             }
 
-            if (panel) {
-                console.log("SUCCESS: Found answer panel:", panel);
-                // --- CHANGE HERE: More specific check for the "open" state ---
-                if (panel.style.maxHeight && panel.style.maxHeight !== "0px") {
+            // --- TOGGLE LOGIC for the clicked panel ---
+            clickedQuestion.classList.toggle("active");
+            let panelToToggle = findNextPanel(clickedQuestion);
+
+            if (panelToToggle) {
+                console.log("SUCCESS: Found answer panel:", panelToToggle);
+                if (panelToToggle.style.maxHeight && panelToToggle.style.maxHeight !== "0px") {
                     console.log("Closing panel.");
-                    panel.style.maxHeight = "0px";
+                    panelToToggle.style.maxHeight = "0px";
                 } else {
                     console.log("Opening panel.");
-                    panel.style.maxHeight = (panel.scrollHeight + 20) + "px";
+                    panelToToggle.style.maxHeight = (panelToToggle.scrollHeight + 20) + "px";
                 }
             } else {
-                // If the panel isn't found, this is a major issue.
                 console.error("FAILURE: Could not find an answer panel for the clicked question.");
             }
         });
     }
 });
+
+/**
+ * Helper function to find the next sibling element with the correct class.
+ * This keeps the code cleaner.
+ * @param {HTMLElement} startElement - The element to start searching from.
+ * @returns {HTMLElement|null} The found panel or null.
+ */
+function findNextPanel(startElement) {
+    let currentElement = startElement;
+    for (let i = 0; i < 5 && currentElement; i++) {
+        let sibling = currentElement.nextElementSibling;
+        while (sibling) {
+            if (sibling.classList.contains("am-faq-accordion-answer")) {
+                return sibling;
+            }
+            sibling = sibling.nextElementSibling;
+        }
+        currentElement = currentElement.parentElement;
+    }
+    return null;
+}
