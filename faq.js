@@ -39,9 +39,9 @@ window.addEventListener("load", function() {
 
             if (panel) {
                 console.log("SUCCESS: Found answer panel:", panel);
-                if (panel.style.maxHeight) {
+                // --- CHANGE HERE: More specific check for the "open" state ---
+                if (panel.style.maxHeight && panel.style.maxHeight !== "0px") {
                     console.log("Closing panel.");
-                    // --- CHANGE HERE: Explicitly set to 0px instead of null ---
                     panel.style.maxHeight = "0px";
                 } else {
                     console.log("Opening panel.");
