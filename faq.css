@@ -6,8 +6,9 @@
 .am-faq-wrapper *::after {
     /* Box Model and Layout Reset */
     box-sizing: border-box;
-    position: static; /* Force elements into the normal document flow */
-    float: none;
+    /* Use !important to force override theme styles */
+    position: static !important; 
+    float: none !important;
     
     /* Universal Reset */
     margin: 0;
@@ -45,7 +46,7 @@
 }
 
 .am-faq-accordion-answer {
-  max-height: 0;
+  max-height: 0 !important; /* Use !important to ensure it starts closed */
   overflow: hidden;
   /* This transition is what creates the smooth open/close animation */
   transition: max-height 0.4s ease-in-out;
