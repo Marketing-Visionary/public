@@ -1,0 +1,56 @@
+/* --- CSS RESET FOR FAQ --- */
+.am-faq-wrapper,
+.am-faq-wrapper button,
+.am-faq-wrapper p,
+.am-faq-wrapper div,
+.am-faq-wrapper h2 {
+    /* Universal Reset */
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    background: transparent;
+    box-sizing: border-box;
+
+    /* --- LAYOUT FIX --- */
+    /* Force elements into the normal document flow */
+    position: relative;
+    float: none;
+}
+
+/* Specific reset for the button to override aggressive theme styles */
+.am-faq-accordion-question {
+    all: unset; /* This is a powerful reset */
+    display: block; /* Re-apply necessary display property */
+}
+/* --- END CSS RESET --- */
+
+
+/* --- CORE ACCORDION STYLES --- */
+.am-faq-accordion-question {
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  outline: none;
+  transition: max-height 0.4s ease-out; /* Note: transition is on the answer */
+  border-bottom: 1px solid #eee;
+  padding: 1em 0;
+  font-weight: bold;
+}
+
+.am-faq-accordion-question:hover {
+  opacity: 0.7;
+}
+
+.am-faq-accordion-answer {
+  max-height: 0;
+  overflow: hidden;
+  /* This transition is what creates the smooth open/close animation */
+  transition: max-height 0.3s ease-out;
+}
+
+.am-faq-accordion-answer > .am-faq-answer-content {
+    padding: 1em 0;
+}
