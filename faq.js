@@ -41,7 +41,8 @@ window.addEventListener("load", function() {
                 console.log("SUCCESS: Found answer panel:", panel);
                 if (panel.style.maxHeight) {
                     console.log("Closing panel.");
-                    panel.style.maxHeight = null;
+                    // --- CHANGE HERE: Explicitly set to 0px instead of null ---
+                    panel.style.maxHeight = "0px";
                 } else {
                     console.log("Opening panel.");
                     panel.style.maxHeight = (panel.scrollHeight + 20) + "px";
