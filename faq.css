@@ -4,11 +4,9 @@
 .am-faq-wrapper *,
 .am-faq-wrapper *::before,
 .am-faq-wrapper *::after {
-    /* Layout Fix: Force elements into the normal document flow */
-    position: static !important; 
-    float: none !important;
-    
-    /* Universal Reset */
+    box-sizing: border-box;
+    position: static;
+    float: none;
     margin: 0;
     padding: 0;
     border: 0;
@@ -16,45 +14,46 @@
     font: inherit;
     vertical-align: baseline;
     background: transparent;
-    box-sizing: border-box;
 }
 
-/* --- NEW FAQ REDESIGN --- */
+/* --- NEW <details> ACCORDION DESIGN --- */
 
-/* Set a baseline font for the entire FAQ section */
 .am-faq-wrapper {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    border-top: 1px solid #e0e0e0;
 }
 
-/* Style for the question button */
-.am-faq-accordion-question {
-    all: unset; /* Powerful reset to remove all inherited styles */
-    display: block; /* Make it a block element */
-    width: 100%;
-    padding: 18px 50px 18px 20px; /* More padding: top/bottom, right, left */
-    margin-bottom: 8px;
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
+.am-faq-item {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Style the question (the <summary> tag) */
+.am-faq-question {
+    all: unset; /* Powerful reset to avoid theme conflicts */
+    display: block;
     cursor: pointer;
-    text-align: left;
+    padding: 18px 50px 18px 20px;
     font-weight: 600;
     font-size: 16px;
     color: #333;
-    position: relative; /* Needed for the icon */
-    transition: background-color 0.3s ease;
+    position: relative; /* For the icon */
 }
 
-.am-faq-accordion-question:hover {
+/* Remove the default arrow/marker from the <summary> element */
+.am-faq-question::-webkit-details-marker {
+    display: none;
+}
+
+.am-faq-question:hover {
     background-color: #f7f7f7;
 }
 
 /* The '+' icon on the right */
-.am-faq-accordion-question::after {
+.am-faq-question::after {
     content: '+';
     font-size: 24px;
     font-weight: 300;
-    color: #0073aa; /* A professional blue */
+    color: #0073aa;
     position: absolute;
     right: 20px;
     top: 50%;
@@ -62,34 +61,20 @@
     transition: transform 0.3s ease;
 }
 
-/* Styles for when the question is active/open */
-.am-faq-accordion-question.active {
-    background-color: #f0f7ff;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-/* Rotate the icon to a 'x' */
-.am-faq-accordion-question.active::after {
+/* When the accordion is open, rotate the icon */
+.am-faq-item[open] > .am-faq-question::after {
     transform: translateY(-50%) rotate(45deg);
 }
 
-/* Style for the answer panel */
-.am-faq-accordion-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease-in-out;
-  background-color: #ffffff;
-  border-left: 1px solid #e0e0e0;
-  border-right: 1px solid #e0e0e0;
-  border-bottom: 1px solid #e0e0e0;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  margin-bottom: 8px; /* Space below the open answer */
-}
-
-.am-faq-accordion-answer > .am-faq-answer-content {
-    padding: 20px;
+/* Style the answer content */
+.am-faq-answer-content {
+    padding: 0 20px 20px 20px;
     color: #555;
     line-height: 1.6;
+    overflow: hidden; /* Needed for the animation */
+}
+
+/* Animation styles for the <details> element */
+.am-faq-item {
+    transition: height 0.3s ease-in-out;
 }
