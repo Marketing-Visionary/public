@@ -1,9 +1,14 @@
-/* --- CSS RESET FOR FAQ --- */
+/* --- AGGRESSIVE CSS RESET FOR FAQ --- */
+/* This targets all elements within the FAQ to override theme styles */
 .am-faq-wrapper,
-.am-faq-wrapper button,
-.am-faq-wrapper p,
-.am-faq-wrapper div,
-.am-faq-wrapper h2 {
+.am-faq-wrapper *,
+.am-faq-wrapper *::before,
+.am-faq-wrapper *::after {
+    /* Box Model and Layout Reset */
+    box-sizing: border-box;
+    position: static; /* Force elements into the normal document flow */
+    float: none;
+    
     /* Universal Reset */
     margin: 0;
     padding: 0;
@@ -12,12 +17,6 @@
     font: inherit;
     vertical-align: baseline;
     background: transparent;
-    box-sizing: border-box;
-
-    /* --- LAYOUT FIX --- */
-    /* Force elements into the normal document flow */
-    position: relative;
-    float: none;
 }
 
 /* Specific reset for the button to override aggressive theme styles */
@@ -34,10 +33,11 @@
   width: 100%;
   text-align: left;
   outline: none;
-  transition: max-height 0.4s ease-out; /* Note: transition is on the answer */
   border-bottom: 1px solid #eee;
   padding: 1em 0;
   font-weight: bold;
+  font-family: sans-serif; /* Add a default font */
+  color: #333; /* Add a default color */
 }
 
 .am-faq-accordion-question:hover {
@@ -48,9 +48,12 @@
   max-height: 0;
   overflow: hidden;
   /* This transition is what creates the smooth open/close animation */
-  transition: max-height 0.3s ease-out;
+  transition: max-height 0.4s ease-in-out;
 }
 
 .am-faq-accordion-answer > .am-faq-answer-content {
     padding: 1em 0;
+    font-family: sans-serif; /* Ensure consistent font */
+    color: #555; /* Ensure consistent color */
+    line-height: 1.6;
 }
