@@ -1,12 +1,10 @@
 /* --- AGGRESSIVE CSS RESET FOR FAQ --- */
-/* This targets all elements within the FAQ to override theme styles */
+/* This targets all elements within the FAQ to ensure a clean slate */
 .am-faq-wrapper,
 .am-faq-wrapper *,
 .am-faq-wrapper *::before,
 .am-faq-wrapper *::after {
-    /* Box Model and Layout Reset */
-    box-sizing: border-box;
-    /* Use !important to force override theme styles */
+    /* Layout Fix: Force elements into the normal document flow */
     position: static !important; 
     float: none !important;
     
@@ -18,43 +16,80 @@
     font: inherit;
     vertical-align: baseline;
     background: transparent;
+    box-sizing: border-box;
 }
 
-/* Specific reset for the button to override aggressive theme styles */
-.am-faq-accordion-question {
-    all: unset; /* This is a powerful reset */
-    display: block; /* Re-apply necessary display property */
+/* --- NEW FAQ REDESIGN --- */
+
+/* Set a baseline font for the entire FAQ section */
+.am-faq-wrapper {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
-/* --- END CSS RESET --- */
 
-
-/* --- CORE ACCORDION STYLES --- */
+/* Style for the question button */
 .am-faq-accordion-question {
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  outline: none;
-  border-bottom: 1px solid #eee;
-  padding: 1em 0;
-  font-weight: bold;
-  font-family: sans-serif; /* Add a default font */
-  color: #333; /* Add a default color */
+    all: unset; /* Powerful reset to remove all inherited styles */
+    display: block; /* Make it a block element */
+    width: 100%;
+    padding: 18px 50px 18px 20px; /* More padding: top/bottom, right, left */
+    margin-bottom: 8px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+    position: relative; /* Needed for the icon */
+    transition: background-color 0.3s ease;
 }
 
 .am-faq-accordion-question:hover {
-  opacity: 0.7;
+    background-color: #f7f7f7;
 }
 
+/* The '+' icon on the right */
+.am-faq-accordion-question::after {
+    content: '+';
+    font-size: 24px;
+    font-weight: 300;
+    color: #0073aa; /* A professional blue */
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+}
+
+/* Styles for when the question is active/open */
+.am-faq-accordion-question.active {
+    background-color: #f0f7ff;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Rotate the icon to a 'x' */
+.am-faq-accordion-question.active::after {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+/* Style for the answer panel */
 .am-faq-accordion-answer {
-  max-height: 0 !important; /* Use !important to ensure it starts closed */
+  max-height: 0;
   overflow: hidden;
-  /* This transition is what creates the smooth open/close animation */
   transition: max-height 0.4s ease-in-out;
+  background-color: #ffffff;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-bottom: 8px; /* Space below the open answer */
 }
 
 .am-faq-accordion-answer > .am-faq-answer-content {
-    padding: 1em 0;
-    font-family: sans-serif; /* Ensure consistent font */
-    color: #555; /* Ensure consistent color */
+    padding: 20px;
+    color: #555;
     line-height: 1.6;
 }
